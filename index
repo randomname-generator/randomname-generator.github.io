@@ -1,0 +1,436 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Random Name Generator — Fantasy, Anime, Gamer & More</title>
+  <meta name="description" content="Instant random name generator for games, stories, pets, planets, clans, and usernames. Generate 1–100 names, copy with one click, and tweak style and length." />
+  <meta name="keywords" content="random name generator,fantasy name generator,anime name maker,gamer tag generator,cat names,planet names,clan names,username ideas" />
+  <meta property="og:title" content="Random Name Generator — Fantasy, Anime, Gamer & More" />
+  <meta property="og:description" content="Generate unique names for games, stories, pets, planets, and more. One‑click copy, bulk mode, and styles." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://randomname-generator.github.io/" />
+  <meta property="og:image" content="/og-image.png" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='30' fill='%230a0a0a'/%3E%3Ctext x='50%25' y='54%25' dominant-baseline='middle' text-anchor='middle' font-size='28' fill='%23fff' font-family='Arial'%3ERN%3C/text%3E%3C/svg%3E" />
+  <style>
+    :root{
+      --bg:#0b1020; --card:#121a2b; --muted:#7e8aa9; --text:#eaf0ff; --brand:#7aa2ff; --accent:#69f0ae; --danger:#ff6b6b; --ring: 0 0 0 3px rgba(122,162,255,.25);
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{margin:0; font-family:Inter,system-ui,Segoe UI,Roboto,Arial,sans-serif; color:var(--text); background:radial-gradient(1200px 700px at 90% -10%, rgba(122,162,255,.15), transparent 60%), radial-gradient(800px 500px at -10% 110%, rgba(105,240,174,.15), transparent 60%), var(--bg);}
+    a{color:var(--brand); text-decoration:none}
+    a:hover{text-decoration:underline}
+    .container{max-width:1100px; margin-inline:auto; padding:24px;}
+    header{display:flex; gap:16px; align-items:center; justify-content:space-between;}
+    .logo{display:flex; align-items:center; gap:12px}
+    .logo-badge{width:36px; height:36px; border-radius:12px; background:linear-gradient(135deg,var(--brand),#9be7ff); display:grid; place-items:center; color:#00122a; font-weight:800}
+    .title{line-height:1.1; margin:0}
+    .subtitle{margin:4px 0 0; color:var(--muted); font-size:.95rem}
+    .ad-slot{display:grid; place-items:center; background:rgba(255,255,255,.04); border:1px dashed rgba(255,255,255,.1); border-radius:12px; padding:10px; color:var(--muted); font-size:.9rem}
+
+    .card{background:linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.02)); border:1px solid rgba(255,255,255,.08); box-shadow:0 10px 30px rgba(0,0,0,.35); backdrop-filter: blur(6px); border-radius:20px; padding:18px}
+    .grid{display:grid; gap:16px}
+    @media (min-width: 900px){
+      .grid{grid-template-columns: 1.2fr .8fr}
+    }
+
+    .controls{display:grid; gap:12px; grid-template-columns: repeat(12, 1fr)}
+    .controls .field{grid-column: span 6}
+    .controls .field.sm{grid-column: span 3}
+    .controls .field.lg{grid-column: span 12}
+    label{display:block; font-size:.85rem; color:var(--muted); margin-bottom:6px}
+    select,input[type="number"],input[type="text"],details{width:100%; background-color:#0e162a; color:var(--text); border:1px solid rgba(255,255,255,.12); border-radius:12px; padding:10px 12px;}
+    details{padding:0}
+    summary{cursor:pointer; list-style:none; padding:10px 12px}
+    summary::-webkit-details-marker{display:none}
+    summary:focus-visible{outline:none; box-shadow:var(--ring)}
+
+    .btn{appearance:none; border:none; border-radius:14px; padding:12px 16px; background:linear-gradient(180deg, var(--brand), #4a7aff); color:#05102a; font-weight:800; cursor:pointer}
+    .btn:hover{filter:brightness(1.05)}
+    .btn:active{transform:translateY(1px)}
+    .btn.secondary{background:linear-gradient(180deg,#2b3348,#1b2236); color:#e6edff; border:1px solid rgba(255,255,255,.12)}
+    .btn.ghost{background:transparent; border:1px solid rgba(255,255,255,.18); color:var(--text)}
+
+    .results{display:grid; gap:10px; margin-top:10px}
+    .result{display:flex; align-items:center; justify-content:space-between; gap:10px; background:#0f1730; border:1px solid rgba(255,255,255,.10); border-radius:12px; padding:10px 12px}
+    .name{font-size:1.05rem; font-weight:700; letter-spacing:.2px}
+    .pill{font-size:.75rem; color:#06112a; background:var(--accent); border-radius:999px; padding:4px 8px; font-weight:800}
+    .toolbar{display:flex; gap:8px}
+
+    .muted{color:var(--muted)}
+    .row{display:flex; gap:12px; align-items:center; flex-wrap:wrap}
+    .kbd{font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace; background:#0b1226; border:1px solid rgba(255,255,255,.12); border-radius:8px; padding:2px 6px; font-size:.85rem}
+    .list{margin:0; padding-left:18px}
+    footer{margin-top:30px; color:var(--muted); font-size:.9rem}
+    .badge{background:#162037; border:1px solid rgba(255,255,255,.1); padding:4px 8px; border-radius:8px}
+
+    .tabs{display:flex; gap:6px; flex-wrap:wrap}
+    .tab{padding:8px 12px; border-radius:999px; border:1px solid rgba(255,255,255,.12); color:var(--muted); cursor:pointer}
+    .tab.active{color:#06112a; background:var(--accent); border-color:transparent; font-weight:800}
+
+    .toast{position:fixed; right:16px; bottom:16px; background:#0f1730; border:1px solid rgba(255,255,255,.12); border-radius:12px; padding:10px 14px; display:none}
+  </style>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "Random Name Generator",
+    "url": "https://your-domain.github.io/",
+    "description": "Generate fantasy, anime, gamer, pet, planet, and clan names instantly.",
+    "inLanguage": "en",
+    "keywords": "random name generator,fantasy,anime,username,cat names,planet names,clan"
+  }
+  </script>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div class="logo">
+        <div class="logo-badge" aria-hidden="true">RN</div>
+        <div>
+          <h1 class="title">Random Name Generator</h1>
+          <p class="subtitle">Fantasy • Anime • Gamer • Pets • Planets • Clans</p>
+        </div>
+      </div>
+      <div class="ad-slot" style="min-width:260px; min-height:60px">Ad slot 468×60</div>
+    </header>
+
+    <main class="grid" aria-live="polite">
+      <section class="card">
+        <div class="row" style="justify-content:space-between">
+          <div class="tabs" id="quickTabs" role="tablist" aria-label="Quick categories"></div>
+          <div class="row">
+            <button class="btn ghost" id="btnPermalink" title="Share this setup">Permalink</button>
+            <button class="btn secondary" id="btnClear">Clear</button>
+          </div>
+        </div>
+
+        <div class="controls" style="margin-top:10px">
+          <div class="field">
+            <label for="category">Category</label>
+            <select id="category" aria-label="Category"></select>
+          </div>
+          <div class="field sm">
+            <label for="count">How many</label>
+            <input id="count" type="number" min="1" max="100" step="1" value="10" />
+          </div>
+          <div class="field sm">
+            <label for="minLen">Min length</label>
+            <input id="minLen" type="number" min="3" max="16" value="4" />
+          </div>
+          <div class="field sm">
+            <label for="maxLen">Max length</label>
+            <input id="maxLen" type="number" min="3" max="24" value="12" />
+          </div>
+          <div class="field">
+            <label for="style">Style</label>
+            <select id="style">
+              <option value="auto" selected>Auto</option>
+              <option value="soft">Soft</option>
+              <option value="sharp">Sharp</option>
+              <option value="mystic">Mystic</option>
+              <option value="tech">Tech</option>
+            </select>
+          </div>
+          <div class="field sm">
+            <label for="seed">Seed (optional)</label>
+            <input id="seed" type="text" placeholder="e.g. luna, kyo, dark" />
+          </div>
+          <div class="field lg">
+            <details>
+              <summary>Advanced options</summary>
+              <div class="row" style="margin:10px 0 0">
+                <label class="badge"><input type="checkbox" id="allowHyphen" /> allow hyphen</label>
+                <label class="badge"><input type="checkbox" id="allowApostrophe" /> allow apostrophe</label>
+                <label class="badge"><input type="checkbox" id="titleCase" checked/> Title Case</label>
+                <label class="badge"><input type="checkbox" id="uniqueOnly" checked/> unique only</label>
+              </div>
+            </details>
+          </div>
+          <div class="field lg">
+            <div class="row">
+              <button class="btn" id="btnGenerate">Generate</button>
+              <button class="btn secondary" id="btnCopyAll">Copy all</button>
+              <span class="muted">Tip: Press <span class="kbd">G</span> to generate</span>
+            </div>
+          </div>
+        </div>
+
+        <div id="results" class="results" aria-live="polite" aria-label="Generated names"></div>
+      </section>
+
+      <aside class="card" aria-label="Extras">
+        <div class="ad-slot" style="height:180px">Ad slot 300×250</div>
+        <h2>Popular presets</h2>
+        <p class="muted">Click to load a ready‑made setup.</p>
+        <div class="row" style="margin-bottom:10px; gap:8px">
+          <button class="tab" data-preset='{"category":"fantasy","count":12,"style":"mystic"}'>Fantasy</button>
+          <button class="tab" data-preset='{"category":"anime","count":12,"style":"soft"}'>Anime</button>
+          <button class="tab" data-preset='{"category":"gamer","count":16,"style":"sharp"}'>Gamer tags</button>
+          <button class="tab" data-preset='{"category":"cats","count":20,"style":"soft"}'>Cat names</button>
+          <button class="tab" data-preset='{"category":"planets","count":10,"style":"tech"}'>Planets</button>
+          <button class="tab" data-preset='{"category":"clans","count":12,"style":"sharp"}'>Clans</button>
+        </div>
+
+        <h2>Monetization ideas</h2>
+        <ul class="list">
+          <li>Place ad blocks above results (responsive 300×250 / 336×280 / 728×90).</li>
+          <li>Add affiliate links to <a href="#" rel="sponsored noopener">game servers</a> or <a href="#" rel="sponsored noopener">AI tools</a>.</li>
+          <li>Create SEO pages for each category (Fantasy, Anime, Cats, Planets, Clans).</li>
+        </ul>
+
+        <h2>Recently copied</h2>
+        <div id="history" class="results"></div>
+      </aside>
+    </main>
+
+    <footer>
+      <p>Made with <span aria-hidden="true">✨</span> by <a href="#">Your Brand</a>. <span class="muted">No data leaves your browser.</span></p>
+      <p class="muted">Deploy on GitHub Pages: create a repo, add this file as <b>index.html</b>, push, then in <i>Settings → Pages</i> pick <i>main / root</i>. Your site will appear at <code>https://&lt;user&gt;.github.io/&lt;repo&gt;/</code>.</p>
+    </footer>
+  </div>
+
+  <div class="toast" id="toast" role="status" aria-live="assertive"></div>
+
+  <script>
+  // --- Name data & patterns -------------------------------------------------
+  const DATA = {
+    fantasy: {
+      prefixes: ["Aer","Ald","Ara","Ash","Bel","Cal","Cyn","Daer","Eld","El","Faer","Gal","Gwy","Ith","Isil","Kael","Ky","Lor","Ly","Mael","My","Nal","Ny","Ori","Quil","Rin","Syl","Ther","Vael","Vor","Yl","Zen"],
+      middles:  ["a","ae","ai","e","ea","ei","i","io","oa","oi","u","y","yr","ar","ir","ur","or"],
+      suffixes: ["bar","bath","driel","dor","drin","dun","fiel","gorn","hael","hild","ion","ith","lith","mir","mon","mund","nys","nor","rael","rion","ryn","saris","thas","thor","thus","var","wyn","wyr","xar"]
+    },
+    anime: {
+      prefixes: ["Aki","Haru","Yuki","Kira","Mika","Sora","Rin","Kyo","Niko","Rei","Hana","Aoi","Yuna","Tora","Shin","Kai","Nao","Miyu","Riku","Luna"],
+      middles:  ["-","","o","a","e","i","u","yo","ya","mi","ko"],
+      suffixes: ["ko","ta","mi","na","ra","shi","ya","zu","rin","nio","suke","chan","kun"]
+    },
+    gamer: {
+      prefixes: ["Ghost","Night","Shadow","Crimson","Neo","Dark","Nova","Frost","Omega","Cyber","Iron","Rapid","Ultra","Turbo","Stealth","Lucky","Blaze","Apex","Alpha","Zero"],
+      middles:  ["","","_","-","","x","X"],
+      suffixes: ["Slayer","Hunter","Byte","Dragon","Sniper","Wolf","Viper","Rider","Core","Storm","Rex","King","Queen","_07","_13","XR","Pro","HD","99","2000"]
+    },
+    cats: {
+      prefixes: ["Mochi","Pumpkin","Mittens","Noodle","Poppy","Nimbus","Clover","Pixel","Pebble","Kiki","Ziggy","Smudge","Biscuit","Pudding","Taco","Mango","Nori","Loki","Luna","Nova"],
+      middles:  [" "," "," "," "," "," "," "],
+      suffixes: ["Bean","Sprout","Whiskers","Paws","Nugget","Bubbles","Tofu","Pebble","Fuzz","Waffles","Mallow"]
+    },
+    planets: {
+      prefixes: ["Xy","Ke","Ta","Pro","Vela","Cyg","And","Draco","Orion","Lyra","Vul","Cer","Zeta","Eri","Tau","Kap","Del","Bet","Gam"],
+      middles:  ["a","e","i","o","u","an","ar","el","or","un","yx","eu"],
+      suffixes: ["lon","dros","mir","nos","thar","xis","vion","dane","phos","kara","lyth","d Prime"]
+    },
+    clans: {
+      prefixes: ["Blood","Storm","Shadow","Silver","Stone","Iron","Night","Sun","Frost","Scarlet","Sky","Dragon"],
+      middles:  [" "," "," "," of "," "," "],
+      suffixes: ["Ravens","Wolves","Blades","Guard","Keepers","Legion","Fangs","Order","Vanguard","Reavers","Coven","Kin"]
+    }
+  };
+
+  const QUICK = ["fantasy","anime","gamer","cats","planets","clans"]; // for header tabs
+
+  // Style phoneme bias
+  const STYLE = {
+    auto:    {v:1, c:1},
+    soft:    {v:1.4, c:.8},
+    sharp:   {v:.8, c:1.3},
+    mystic:  {v:1.3, c:1.1},
+    tech:    {v:1.0, c:1.4}
+  };
+
+  // --- Helpers --------------------------------------------------------------
+  const $ = (sel, root=document) => root.querySelector(sel);
+  const $$ = (sel, root=document) => [...root.querySelectorAll(sel)];
+  const choice = (arr, rng) => arr[Math.floor(rng()*arr.length)];
+  const clamp = (n,min,max)=>Math.max(min,Math.min(max,n));
+  const titleCase = s => s.replace(/\b([a-z])/g, m=>m.toUpperCase());
+
+  function mulberry32(a){ // deterministic RNG by seed
+    return function(){ let t = a += 0x6D2B79F5; t = Math.imul(t ^ t >>> 15, t | 1); t ^= t + Math.imul(t ^ t >>> 7, t | 61); return ((t ^ t >>> 14) >>> 0) / 4294967296; }
+  }
+  function hash(str){ let h=1779033703^str.length; for(let i=0;i<str.length;i++){ h=Math.imul(h^str.charCodeAt(i),3432918353); h=h<<13|h>>>19;} return (h>>>0); }
+
+  function buildName(cat, opts, rng){
+    const set = DATA[cat] || DATA.fantasy;
+    const bias = STYLE[opts.style]||STYLE.auto;
+
+    // Base pattern length: 2–4 parts
+    let parts = 2 + Math.floor(rng()*2.5); // 2 or 3 or sometimes 4
+    const allowHy = opts.allowHyphen && rng()<0.15;
+    const allowAp = opts.allowApostrophe && rng()<0.15;
+
+    let raw = "";
+    for(let i=0;i<parts;i++){
+      const p = choice(set.prefixes, rng);
+      const m = (rng() < (0.55*bias.v)) ? choice(set.middles, rng) : "";
+      const s = (rng() < (0.65*bias.c)) ? choice(set.suffixes, rng) : "";
+      raw += p + m + s;
+      if(i < parts-1){
+        if(allowHy && rng()<0.5) raw += "-";
+        else if(allowAp && rng()<0.5) raw += "'";
+      }
+    }
+
+    // Seed grafting (prepend/append fragments)
+    if(opts.seed){
+      const frag = opts.seed.trim();
+      if(frag){ if(rng()<0.5) raw = frag + raw; else raw = raw + frag; }
+    }
+
+    // Length enforcement via trimming / re-roll tail
+    const minL = clamp(+opts.minLen||3,3,32), maxL = clamp(+opts.maxLen||24,3,48);
+    if(raw.length < minL){ raw += choice(set.suffixes, rng); }
+    if(raw.length > maxL){ raw = raw.slice(0, maxL).replace(/[\-' ]+$/,''); }
+
+    return opts.titleCase ? titleCase(raw) : raw;
+  }
+
+  // --- UI logic -------------------------------------------------------------
+  const state = {
+    category: "fantasy", count: 10, minLen: 4, maxLen: 12, style: "auto",
+    seed: "", allowHyphen: false, allowApostrophe: false, titleCase: true, uniqueOnly: true
+  };
+
+  function loadFromQuery(){
+    const p = new URLSearchParams(location.search);
+    for(const k of Object.keys(state)){
+      if(p.has(k)){
+        const v = p.get(k);
+        state[k] = (k === 'count' || k==='minLen' || k==='maxLen') ? Number(v) : (v === 'true' ? true : (v === 'false' ? false : v));
+      }
+    }
+  }
+
+  function syncUI(){
+    $('#category').value = state.category;
+    $('#count').value = state.count;
+    $('#minLen').value = state.minLen;
+    $('#maxLen').value = state.maxLen;
+    $('#style').value = state.style;
+    $('#seed').value = state.seed;
+    $('#allowHyphen').checked = state.allowHyphen;
+    $('#allowApostrophe').checked = state.allowApostrophe;
+    $('#titleCase').checked = state.titleCase;
+    $('#uniqueOnly').checked = state.uniqueOnly;
+
+    // Quick tabs
+    const qt = $('#quickTabs');
+    qt.innerHTML = '';
+    QUICK.forEach(cat=>{
+      const b = document.createElement('button');
+      b.className = 'tab' + (state.category===cat ? ' active' : '');
+      b.textContent = cat.charAt(0).toUpperCase()+cat.slice(1);
+      b.addEventListener('click',()=>{ state.category=cat; syncUI(); generate(); updateURL(); });
+      qt.appendChild(b);
+    });
+  }
+
+  function readUI(){
+    state.category = $('#category').value;
+    state.count = clamp(parseInt($('#count').value||'10',10),1,100);
+    state.minLen = clamp(parseInt($('#minLen').value||'4',10),3,32);
+    state.maxLen = clamp(parseInt($('#maxLen').value||'12',10),3,48);
+    state.style = $('#style').value;
+    state.seed = $('#seed').value;
+    state.allowHyphen = $('#allowHyphen').checked;
+    state.allowApostrophe = $('#allowApostrophe').checked;
+    state.titleCase = $('#titleCase').checked;
+    state.uniqueOnly = $('#uniqueOnly').checked;
+  }
+
+  function updateURL(){
+    const p = new URLSearchParams();
+    for(const [k,v] of Object.entries(state)) p.set(k, v);
+    history.replaceState(null, '', '?' + p.toString());
+  }
+
+  function toast(msg){ const el = $('#toast'); el.textContent = msg; el.style.display='block'; clearTimeout(el._t); el._t = setTimeout(()=>el.style.display='none', 1600); }
+
+  function addToHistory(name){
+    const key = 'rng_history_v1';
+    const arr = JSON.parse(localStorage.getItem(key) || '[]');
+    arr.unshift({ name, ts: Date.now() });
+    localStorage.setItem(key, JSON.stringify(arr.slice(0, 20)));
+    renderHistory();
+  }
+
+  function renderHistory(){
+    const key = 'rng_history_v1';
+    const arr = JSON.parse(localStorage.getItem(key) || '[]');
+    const box = $('#history');
+    box.innerHTML = arr.length? '' : '<p class="muted">Nothing here yet. Copy a name to store it.</p>';
+    arr.forEach(({name})=>{
+      const row = document.createElement('div');
+      row.className = 'result';
+      row.innerHTML = `<div class="name">${name}</div><div class="toolbar"><button class="btn ghost" data-copy>Copy</button></div>`;
+      row.querySelector('[data-copy]').addEventListener('click',()=>copy(name));
+      box.appendChild(row);
+    });
+  }
+
+  function copy(text){
+    navigator.clipboard.writeText(text).then(()=> toast('Copied to clipboard')).catch(()=> toast('Copy failed'));
+  }
+
+  function generate(){
+    readUI(); updateURL();
+    const list = $('#results'); list.innerHTML = '';
+
+    // Seeded RNG so permalink regenerates same set
+    const seedStr = (state.seed||'') + '|' + state.category + '|' + state.style + '|' + state.count + '|' + state.minLen + '|' + state.maxLen + '|' + (state.allowHyphen?'1':'0') + (state.allowApostrophe?'1':'0') + Date.now();
+    const rng = mulberry32(hash(seedStr));
+
+    const names = new Set();
+    while(names.size < state.count){
+      const n = buildName(state.category, state, rng);
+      if(state.uniqueOnly && names.has(n)) continue;
+      names.add(n);
+    }
+
+    [...names].forEach((n)=>{
+      const row = document.createElement('div');
+      row.className = 'result';
+      const pill = `<span class="pill">${state.category}</span>`;
+      row.innerHTML = `<div class="name">${n}</div><div class="toolbar">${pill}<button class="btn ghost" data-copy>Copy</button></div>`;
+      row.querySelector('[data-copy]').addEventListener('click',()=>{ copy(n); addToHistory(n); });
+      list.appendChild(row);
+    });
+  }
+
+  // Populate category select
+  function initCategories(){
+    const sel = $('#category');
+    sel.innerHTML = Object.keys(DATA).map(k=>`<option value="${k}">${k[0].toUpperCase()+k.slice(1)}</option>`).join('');
+  }
+
+  function bind(){
+    $('#btnGenerate').addEventListener('click', generate);
+    $('#btnCopyAll').addEventListener('click', ()=>{
+      const text = $$('#results .name').map(n=>n.textContent).join('\n');
+      copy(text);
+    });
+    $('#btnClear').addEventListener('click', ()=>{ $('#results').innerHTML=''; toast('Cleared'); });
+    $('#btnPermalink').addEventListener('click', ()=>{ updateURL(); copy(location.href); });
+
+    // Presets
+    $$('.tab[data-preset]').forEach(b=> b.addEventListener('click',()=>{
+      const preset = JSON.parse(b.dataset.preset);
+      Object.assign(state, preset); syncUI(); generate();
+    }));
+
+    // Keyboard shortcut
+    document.addEventListener('keydown', e=>{ if(e.key.toLowerCase()==='g'){ generate(); }});
+  }
+
+  // Initial load
+  (function start(){
+    initCategories();
+    loadFromQuery();
+    syncUI();
+    renderHistory();
+    generate();
+  })();
+  </script>
+</body>
+</html>
